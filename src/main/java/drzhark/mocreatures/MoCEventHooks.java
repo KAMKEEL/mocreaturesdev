@@ -2,9 +2,9 @@ package drzhark.mocreatures;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import drzhark.customspawner.utils.CMSUtils;
 import drzhark.mocreatures.entity.IMoCTameable;
 import drzhark.mocreatures.utils.MoCLog;
+import drzhark.mocreatures.utils.MoUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.IRangedAttackMob;
@@ -152,7 +152,7 @@ public class MoCEventHooks {
             {
                 y = 255;
             }
-            blockLightLevel = CMSUtils.getBlockLightValue(worldObj.getChunkFromChunkCoords(x >> 4, z >> 4), x & 15, y, z & 15);
+            blockLightLevel = MoUtils.getBlockLightValue(worldObj.getChunkFromChunkCoords(x >> 4, z >> 4), x & 15, y, z & 15);
         }
         if (blockLightLevel < minDespawnLightLevel && maxDespawnLightLevel != -1)
         {

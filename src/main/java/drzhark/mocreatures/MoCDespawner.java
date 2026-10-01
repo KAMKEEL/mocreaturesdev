@@ -3,8 +3,8 @@ package drzhark.mocreatures;
 import java.util.ArrayList;
 import java.util.List;
 
-import drzhark.customspawner.utils.CMSUtils;
 import drzhark.mocreatures.utils.MoCLog;
+import drzhark.mocreatures.utils.MoUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
@@ -149,7 +149,7 @@ public class MoCDespawner {
             if (y >= 256) {
                 y = 255;
             }
-            blockLightLevel = CMSUtils.getBlockLightValue(worldObj.getChunkFromChunkCoords(x >> 4, z >> 4), x & 15, y, z & 15);
+            blockLightLevel = MoUtils.getBlockLightValue(worldObj.getChunkFromChunkCoords(x >> 4, z >> 4), x & 15, y, z & 15);
         }
         if (maxDespawnLightLevel != -1 && (blockLightLevel < minDespawnLightLevel || blockLightLevel > maxDespawnLightLevel)) {
             return false;
