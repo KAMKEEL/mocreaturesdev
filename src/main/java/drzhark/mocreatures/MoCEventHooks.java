@@ -2,6 +2,7 @@ package drzhark.mocreatures;
 
 import cpw.mods.fml.common.eventhandler.Event.Result;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import drzhark.mocreatures.entity.IMoCEntity;
 import drzhark.mocreatures.entity.IMoCTameable;
 import drzhark.mocreatures.utils.MoCLog;
 import drzhark.mocreatures.utils.MoUtils;
@@ -121,11 +122,20 @@ public class MoCEventHooks {
                     return;
                 }
             }
-            // Others
-            NBTTagCompound nbt = new NBTTagCompound();
-            event.entityLiving.writeToNBT(nbt);
-            if (nbt != null)
+            // Mo' Creatures exposes tame state directly. Avoid serializing every
+            // MoC entity on each Forge despawn check just to read it back.
+            if (event.entityLiving instanceof IMoCEntity)
             {
+                if (((IMoCEntity) event.entityLiving).getIsTamed())
+                {
+                    return;
+                }
+            }
+            else
+            {
+                // Preserve the compatibility fallback for entities from other mods.
+                NBTTagCompound nbt = new NBTTagCompound();
+                event.entityLiving.writeToNBT(nbt);
                 if (nbt.hasKey("Owner") && !nbt.getString("Owner").equals(""))
                 {
                     return; // ignore
