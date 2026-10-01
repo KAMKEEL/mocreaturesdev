@@ -11,7 +11,6 @@
     "DrZhark",
 "BloodShot",
 "BlockDaddy"
-	
   ],
   "credits": "Authored by DrZhark, coding, AI, animations: DrZhark.  Models, textures: Kent Jensen, DrZhark.  SMP coding: DrZhark, BloodShot. Bugfixes: jss2a98aj",
   "logoFile": "/moclogo.png",
@@ -19,9 +18,7 @@
     "shot1.png",
     "shot2.png"
   ],
-  
   "dependencies": [
-     "CustomSpawner",
      "GUI_Api"
   ]
 }
