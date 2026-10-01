@@ -12,9 +12,19 @@ import drzhark.mocreatures.entity.IMoCTameable;
 import drzhark.mocreatures.entity.MoCEntityAnimal;
 import drzhark.mocreatures.entity.MoCEntityTameableAnimal;
 import drzhark.mocreatures.entity.ambient.MoCEntityMaggot;
+import drzhark.mocreatures.entity.aquatic.MoCEntityPiranha;
+import drzhark.mocreatures.entity.aquatic.MoCEntityShark;
 import drzhark.mocreatures.entity.monster.MoCEntityOgre;
+import drzhark.mocreatures.entity.monster.MoCEntityWWolf;
+import drzhark.mocreatures.entity.passive.MoCEntityBear;
+import drzhark.mocreatures.entity.passive.MoCEntityBigCat;
+import drzhark.mocreatures.entity.passive.MoCEntityBoar;
+import drzhark.mocreatures.entity.passive.MoCEntityCrocodile;
+import drzhark.mocreatures.entity.passive.MoCEntityFox;
 import drzhark.mocreatures.entity.passive.MoCEntityHorse;
 import drzhark.mocreatures.entity.passive.MoCEntityPetScorpion;
+import drzhark.mocreatures.entity.passive.MoCEntityRaccoon;
+import drzhark.mocreatures.entity.passive.MoCEntitySnake;
 import drzhark.mocreatures.inventory.MoCAnimalChest;
 import drzhark.mocreatures.network.MoCMessageHandler;
 import drzhark.mocreatures.network.message.MoCMessageAttachedEntity;
@@ -658,26 +668,17 @@ public class MoCTools {
         }
     }
     
-    public static void destroyDrops(Entity entity, double d)
-    {
-
-        if (!MoCreatures.proxy.destroyDrops) { return; }
-
-        List list = entity.worldObj.getEntitiesWithinAABBExcludingEntity(entity, entity.boundingBox.expand(d, d, d));
-
-        for (int i = 0; i < list.size(); i++)
-        {
-            Entity entity1 = (Entity) list.get(i);
-            if (!(entity1 instanceof EntityItem))
-            {
-                continue;
-            }
-            EntityItem entityitem = (EntityItem) entity1;
-            if ((entityitem != null) && (entityitem.age < 50))
-            {
-                entityitem.setDead();
-            }
-        }
+    public static boolean destroysPreyDrops(Entity entity) {
+        return entity instanceof MoCEntityBear
+                || entity instanceof MoCEntityBigCat
+                || entity instanceof MoCEntityBoar
+                || entity instanceof MoCEntityCrocodile
+                || entity instanceof MoCEntityFox
+                || entity instanceof MoCEntityRaccoon
+                || entity instanceof MoCEntitySnake
+                || entity instanceof MoCEntityPiranha
+                || entity instanceof MoCEntityShark
+                || entity instanceof MoCEntityWWolf;
     }
 
     public static void repelMobs(Entity entity1, Double dist, World worldObj)

@@ -14,6 +14,7 @@ import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.passive.EntityTameable;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.GameRules;
@@ -22,10 +23,20 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.world.WorldEvent;
 
 public class MoCEventHooks {
+
+    @SubscribeEvent
+    public void onLivingDropsEvent(LivingDropsEvent event) {
+        if (MoCreatures.proxy.destroyDrops
+                && !(event.entityLiving instanceof EntityPlayer)
+                && MoCTools.destroysPreyDrops(event.source.getEntity())) {
+            event.drops.clear();
+        }
+    }
 
     @SubscribeEvent
     public void onWorldUnload(WorldEvent.Unload event)

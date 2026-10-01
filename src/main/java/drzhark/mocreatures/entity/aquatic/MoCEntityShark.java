@@ -57,10 +57,6 @@ public class MoCEntityShark extends MoCEntityTameableAquatic {
             }
             attackTime = 20;
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), 5);
-            if (!(entity instanceof EntityPlayer))
-            {
-                MoCTools.destroyDrops(this, 3D);
-            }
         }
     }
 

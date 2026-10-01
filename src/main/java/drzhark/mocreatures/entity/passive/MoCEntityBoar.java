@@ -50,10 +50,6 @@ public class MoCEntityBoar extends MoCEntityAnimal {
         {
             attackTime = 20;
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), force);
-            if (!(entity instanceof EntityPlayer))
-            {
-                MoCTools.destroyDrops(this, 3D);
-            }
         }
     }
 

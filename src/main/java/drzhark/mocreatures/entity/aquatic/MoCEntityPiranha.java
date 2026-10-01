@@ -91,10 +91,6 @@ public class MoCEntityPiranha extends MoCEntitySmallFish{
             }
             attackTime = 20;
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), 2);
-            if (!(entity instanceof EntityPlayer))
-            {
-                MoCTools.destroyDrops(this, 3D);
-            }
         }
     }
 

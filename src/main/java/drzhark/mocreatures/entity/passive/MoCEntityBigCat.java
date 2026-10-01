@@ -363,10 +363,6 @@ public class MoCEntityBigCat extends MoCEntityTameableAnimal {
         {
             attackTime = 20;
             entity.attackEntityFrom(DamageSource.causeMobDamage(this), getForce());
-            if (!(entity instanceof EntityPlayer))
-            {
-                MoCTools.destroyDrops(this, 3D);
-            }
         }
     }
 

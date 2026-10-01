@@ -77,10 +77,6 @@ public class MoCEntityWWolf extends MoCEntityMob {
             openMouth();
             attackTime = 20;
             this.attackEntityAsMob(entity);
-            if (!(entity instanceof EntityPlayer))
-            {
-                MoCTools.destroyDrops(this, 3D);
-            }
         }
     }
 

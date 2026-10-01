@@ -258,10 +258,6 @@ public class MoCEntityCrocodile extends MoCEntityTameableAnimal {
                     if (MoCreatures.isServer() && rand.nextInt(50) == 0)
                     {
                         riddenByEntity.attackEntityFrom(DamageSource.causeMobDamage(this), 2);
-                        if (!(riddenByEntity instanceof EntityPlayer))
-                        {
-                            MoCTools.destroyDrops(this, 3D);
-                        }
                     }
                 }
             }
@@ -283,10 +279,6 @@ public class MoCEntityCrocodile extends MoCEntityTameableAnimal {
                 {
                     spinInt = 0;
                     riddenByEntity.attackEntityFrom(DamageSource.causeMobDamage(this), 4);
-                    if (!(riddenByEntity instanceof EntityPlayer))
-                    {
-                        MoCTools.destroyDrops(this, 3D);
-                    }
                 }
 
                 //the following if to be removed from SMP
@@ -366,10 +358,6 @@ public class MoCEntityCrocodile extends MoCEntityTameableAnimal {
             else
             {
                 entity.attackEntityFrom(DamageSource.causeMobDamage(this), 2);
-                if (!(entity instanceof EntityPlayer))
-                {
-                    MoCTools.destroyDrops(this, 3D);
-                }
                 crocBite();
                 setHasCaughtPrey(false);
             }
