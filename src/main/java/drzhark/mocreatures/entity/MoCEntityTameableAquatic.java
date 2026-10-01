@@ -80,7 +80,9 @@ public class MoCEntityTameableAquatic extends MoCEntityAquatic implements IMoCTa
         
         //sets it free, untamed
         if ((itemstack != null) && getIsTamed() 
-                && ((itemstack.getItem() == MoCreatures.scrollFreedom)))
+                && ((itemstack.getItem() == MoCreatures.scrollFreedom))
+                && getOwnerName() != null && !getOwnerName().isEmpty()
+                && (entityplayer.getCommandSenderName().equals(getOwnerName()) || MoCTools.isThisPlayerAnOP(entityplayer)))
         {
             if (--itemstack.stackSize == 0)
             {
@@ -103,7 +105,9 @@ public class MoCEntityTameableAquatic extends MoCEntityAquatic implements IMoCTa
 
         //removes owner, any other player can claim it by renaming it
         if ((itemstack != null) && getIsTamed() 
-                    && ((itemstack.getItem() == MoCreatures.scrollOfSale)))
+                    && ((itemstack.getItem() == MoCreatures.scrollOfSale))
+                    && getOwnerName() != null && !getOwnerName().isEmpty()
+                    && (entityplayer.getCommandSenderName().equals(getOwnerName()) || MoCTools.isThisPlayerAnOP(entityplayer)))
         {
             if (--itemstack.stackSize == 0)
             {
