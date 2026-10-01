@@ -461,20 +461,6 @@ public class MoCEntityBird extends MoCEntityTameableAnimal {
         return (new int[] { -1, 0, 0 });
     }
 
-    @Override
-    public void setDead()
-    {
-        if (MoCreatures.isServer() && getIsTamed() && (this.getHealth() > 0))
-        {
-            return;
-        }
-        else
-        {
-            super.setDead();
-            return;
-        }
-    }
-
     public void setPicked(boolean var1)
     {
         isPicked = var1;
