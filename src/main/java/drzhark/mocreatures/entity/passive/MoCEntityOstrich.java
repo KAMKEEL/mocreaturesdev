@@ -56,6 +56,12 @@ public class MoCEntityOstrich extends MoCEntityTameableAnimal {
         this.canLayEggs = false;
     }
 
+    @Override
+    public void setType(int type) {
+        super.setType(type);
+        isImmuneToFire = type == 5;
+    }
+
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();

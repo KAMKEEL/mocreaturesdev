@@ -35,6 +35,12 @@ public class MoCEntityOgre extends MoCEntityMob{
         frequencyA = 30;
     }
 
+    @Override
+    public void setType(int type) {
+        super.setType(type);
+        isImmuneToFire = type == 3 || type == 4;
+    }
+
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();

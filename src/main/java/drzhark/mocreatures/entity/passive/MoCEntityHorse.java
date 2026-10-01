@@ -100,6 +100,12 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
         }
     }
 
+    @Override
+    public void setType(int type) {
+        super.setType(type);
+        isImmuneToFire = type == 38 || type == 40;
+    }
+
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();

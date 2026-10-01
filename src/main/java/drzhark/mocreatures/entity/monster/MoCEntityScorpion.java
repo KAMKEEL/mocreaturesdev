@@ -49,6 +49,12 @@ public class MoCEntityScorpion extends MoCEntityMob {
         }
     }
 
+    @Override
+    public void setType(int type) {
+        super.setType(type);
+        isImmuneToFire = type == 3;
+    }
+
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(15.0D);
