@@ -2,6 +2,7 @@ package drzhark.mocreatures.network.message;
 
 import java.util.List;
 
+import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
@@ -44,16 +45,14 @@ public class MoCMessageUpdatePetName implements IMessage, IMessageHandler<MoCMes
     @Override
     public void toBytes(ByteBuf buffer)
     {
-        buffer.writeInt(this.name.length());
-        buffer.writeBytes(this.name.getBytes());
+        ByteBufUtils.writeUTF8String(buffer, this.name);
         buffer.writeInt(this.entityId);
     }
 
     @Override
     public void fromBytes(ByteBuf buffer)
     {
-        int nameLength = buffer.readInt();
-        this.name = new String(buffer.readBytes(nameLength).array());
+        this.name = ByteBufUtils.readUTF8String(buffer);
         this.entityId = buffer.readInt();
     }
 
