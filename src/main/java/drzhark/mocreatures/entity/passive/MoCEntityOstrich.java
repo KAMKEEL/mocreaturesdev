@@ -927,7 +927,7 @@ public class MoCEntityOstrich extends MoCEntityTameableAnimal {
         if (getIsChested())
         {
             NBTTagList nbttaglist = nbttagcompound.getTagList("Items", 10);
-            localchest = new MoCAnimalChest("OstrichChest", 18);
+            localchest = new MoCAnimalChest("OstrichChest", 9);
             for (int i = 0; i < nbttaglist.tagCount(); i++)
             {
                 NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist.getCompoundTagAt(i);
