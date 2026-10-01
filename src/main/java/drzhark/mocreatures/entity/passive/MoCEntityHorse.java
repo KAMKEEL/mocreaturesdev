@@ -2820,11 +2820,11 @@ public class MoCEntityHorse extends MoCEntityTameableAnimal {
 
             for (int i = 0; i < nbttaglist.tagCount(); i++)
             {
-                ItemStack itemstack = localhorsechest.getStackInSlot(i);
-
-                if (itemstack != null)
+                NBTTagCompound itemTag = nbttaglist.getCompoundTagAt(i);
+                int slot = itemTag.getByte("Slot") & 0xff;
+                if (slot < localhorsechest.getSizeInventory())
                 {
-                    localhorsechest.setInventorySlotContents(i, itemstack.copy());
+                    localhorsechest.setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(itemTag));
                 }
             }
         }
