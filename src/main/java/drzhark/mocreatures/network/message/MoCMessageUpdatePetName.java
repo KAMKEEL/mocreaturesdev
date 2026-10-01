@@ -1,23 +1,14 @@
 package drzhark.mocreatures.network.message;
 
-import java.util.List;
-
 import cpw.mods.fml.common.network.ByteBufUtils;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import drzhark.mocreatures.MoCPetData;
 import drzhark.mocreatures.MoCreatures;
-import drzhark.mocreatures.client.MoCClientProxy;
-import drzhark.mocreatures.client.gui.helpers.MoCGUIEntityNamer;
-import drzhark.mocreatures.entity.IMoCEntity;
 import drzhark.mocreatures.entity.IMoCTameable;
+import drzhark.mocreatures.network.MoCServerPacketQueue;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,6 +16,8 @@ import net.minecraft.nbt.NBTTagList;
 
 
 public class MoCMessageUpdatePetName implements IMessage, IMessageHandler<MoCMessageUpdatePetName, IMessage> {
+
+    private static final int MAX_NAME_LENGTH = 32;
 
     String name;
     int entityId;
@@ -59,37 +52,60 @@ public class MoCMessageUpdatePetName implements IMessage, IMessageHandler<MoCMes
     @Override
     public IMessage onMessage(MoCMessageUpdatePetName message, MessageContext ctx)
     {
-        Entity pet = null;
-        List<Entity> entList = ctx.getServerHandler().playerEntity.worldObj.loadedEntityList;
-        String ownerName = "";
-
-        for (Entity ent : entList)
-        {
-            if (ent.getEntityId() == message.entityId && ent instanceof IMoCTameable)
-            {
-                ((IMoCEntity) ent).setName(message.name);
-                ownerName = ((IMoCEntity) ent).getOwnerName();
-                pet = ent;
-                break;
+        final EntityPlayer player = ctx.getServerHandler().playerEntity;
+        final int requestedEntityId = message.entityId;
+        final String requestedName = limitName(message.name);
+        MoCServerPacketQueue.enqueue(new Runnable() {
+            @Override
+            public void run() {
+                renamePet(player, requestedEntityId, requestedName);
             }
-        }
-        // update petdata
-        MoCPetData petData = MoCreatures.instance.mapData.getPetData(ownerName);
-        if (petData != null && pet != null && ((IMoCTameable)pet).getOwnerPetId() != -1)
-        {
-            int id = ((IMoCTameable)pet).getOwnerPetId();
-            NBTTagList tag = petData.getOwnerRootNBT().getTagList("TamedList", 10);
-            for (int i = 0; i < tag.tagCount(); i++)
-            {
-                NBTTagCompound nbt = (NBTTagCompound)tag.getCompoundTagAt(i);
-                if (nbt.getInteger("PetId") == id)
-                {
-                    nbt.setString("Name", message.name);
-                    ((IMoCTameable)pet).setName(message.name);
-                }
-            }
-        }
+        });
         return null;
+    }
+
+    private static String limitName(String name) {
+        if (name == null) {
+            return "";
+        }
+        int codePoints = name.codePointCount(0, name.length());
+        if (codePoints <= MAX_NAME_LENGTH) {
+            return name;
+        }
+        return name.substring(0, name.offsetByCodePoints(0, MAX_NAME_LENGTH));
+    }
+
+    private static void renamePet(EntityPlayer player, int entityId, String name) {
+        Entity entity = player.worldObj.getEntityByID(entityId);
+        if (!(entity instanceof IMoCTameable)) {
+            return;
+        }
+
+        IMoCTameable pet = (IMoCTameable) entity;
+        String ownerName = pet.getOwnerName();
+        if (!pet.getIsTamed() || ownerName == null || !ownerName.equals(player.getCommandSenderName())) {
+            return;
+        }
+
+        pet.setName(name);
+        if (MoCreatures.instance.mapData == null || pet.getOwnerPetId() == -1) {
+            return;
+        }
+
+        MoCPetData petData = MoCreatures.instance.mapData.getPetData(ownerName);
+        if (petData == null) {
+            return;
+        }
+
+        NBTTagList pets = petData.getOwnerRootNBT().getTagList("TamedList", 10);
+        for (int i = 0; i < pets.tagCount(); i++) {
+            NBTTagCompound petTag = pets.getCompoundTagAt(i);
+            if (petTag.getInteger("PetId") == pet.getOwnerPetId()) {
+                petTag.setString("Name", name);
+                MoCreatures.instance.mapData.markDirty();
+                return;
+            }
+        }
     }
 
     @Override

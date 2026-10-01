@@ -121,6 +121,7 @@ import drzhark.mocreatures.item.MoCItemTurtleSoup;
 import drzhark.mocreatures.item.MoCItemWeapon;
 import drzhark.mocreatures.item.MoCItemWhip;
 import drzhark.mocreatures.network.MoCMessageHandler;
+import drzhark.mocreatures.network.MoCServerPacketQueue;
 import drzhark.mocreatures.utils.MoCLog;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -378,6 +379,7 @@ public class MoCreatures {
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MoCMessageHandler.init();
+        FMLCommonHandler.instance().bus().register(new MoCServerPacketQueue());
         MinecraftForge.EVENT_BUS.register(new MoCEventHooks());
         proxy.ConfigInit(event);
         proxy.initTextures();
