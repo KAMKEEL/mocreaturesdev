@@ -3,6 +3,7 @@ package drzhark.mocreatures.item;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
@@ -23,6 +24,8 @@ public class MoCItemHorseAmulet extends MoCItem {
 
     private int ageCounter;
     private String name;
+    private boolean hasMaxHealth;
+    private float maxHealth;
     private float health;
     private int edad;
     private int creatureType;
@@ -91,6 +94,10 @@ public class MoCItemHorseAmulet extends MoCItem {
                     storedCreature.setEdad(edad);
                     storedCreature.setName(name);
                     storedCreature.setArmorType(armor);
+                    if (hasMaxHealth)
+                    {
+                        storedCreature.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);
+                    }
                     storedCreature.setHealth(health);
                     storedCreature.setAdult(adult);
                     storedCreature.setOwnerPetId(PetId);
@@ -183,6 +190,8 @@ public class MoCItemHorseAmulet extends MoCItem {
     {
         this.PetId = nbt.getInteger("PetId");
         this.creatureType = nbt.getInteger("CreatureType");
+        this.hasMaxHealth = nbt.hasKey("MaxHealth");
+        this.maxHealth = nbt.getFloat("MaxHealth");
         this.health = nbt.getFloat("Health");
         this.edad = nbt.getInteger("Edad");
         this.name = nbt.getString("Name");
@@ -197,6 +206,10 @@ public class MoCItemHorseAmulet extends MoCItem {
     {
         nbt.setInteger("PetID", this.PetId);
         nbt.setInteger("CreatureType", this.creatureType);
+        if (this.hasMaxHealth)
+        {
+            nbt.setFloat("MaxHealth", this.maxHealth);
+        }
         nbt.setFloat("Health", this.health);
         nbt.setInteger("Edad", this.edad);
         nbt.setString("Name", this.name);

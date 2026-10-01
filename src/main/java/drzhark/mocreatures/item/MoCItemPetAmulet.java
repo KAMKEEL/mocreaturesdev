@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -31,6 +32,8 @@ public class MoCItemPetAmulet extends MoCItem
     private IIcon[] icons;
     private int ageCounter;
     private String name;
+    private boolean hasMaxHealth;
+    private float maxHealth;
     private float health;
     private int edad;
     private int creatureType;
@@ -102,6 +105,10 @@ public class MoCItemPetAmulet extends MoCItem
                         storedCreature.setName(name);
                         storedCreature.setOwnerPetId(PetId);
                         storedCreature.setOwner(entityplayer.getCommandSenderName());
+                        if (hasMaxHealth)
+                        {
+                            ((EntityLiving) storedCreature).getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);
+                        }
                         ((EntityLiving)storedCreature).setHealth(health);
                         storedCreature.setEdad(edad);
                         storedCreature.setAdult(adult);
@@ -183,6 +190,8 @@ public class MoCItemPetAmulet extends MoCItem
     {
         this.PetId = nbt.getInteger("PetId");
         this.creatureType = nbt.getInteger("CreatureType");
+        this.hasMaxHealth = nbt.hasKey("MaxHealth");
+        this.maxHealth = nbt.getFloat("MaxHealth");
         this.health = nbt.getFloat("Health");
         this.edad = nbt.getInteger("Edad");
         this.name = nbt.getString("Name");
@@ -195,6 +204,10 @@ public class MoCItemPetAmulet extends MoCItem
     {
         nbt.setInteger("PetID", this.PetId);
         nbt.setInteger("CreatureType", this.creatureType);
+        if (this.hasMaxHealth)
+        {
+            nbt.setFloat("MaxHealth", this.maxHealth);
+        }
         nbt.setFloat("Health", this.health);
         nbt.setInteger("Edad", this.edad);
         nbt.setString("Name", this.name);

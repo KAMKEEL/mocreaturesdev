@@ -1410,6 +1410,7 @@ public class MoCTools {
             try
             {
                 nbtt.setInteger("SpawnClass", 21); 
+                nbtt.setFloat("MaxHealth", entity.getMaxHealth());
                 nbtt.setFloat("Health", entity.getHealth());
                 nbtt.setInteger("Edad", entity.getEdad());
                 nbtt.setString("Name", entity.getName());
@@ -1470,6 +1471,7 @@ public class MoCTools {
                     petClass = "KomodoDragon";
                 }
                 nbtt.setString("SpawnClass", petClass);
+                nbtt.setFloat("MaxHealth", ((EntityLiving) entity).getMaxHealth());
                 nbtt.setFloat("Health", ((EntityLiving)entity).getHealth());
                 nbtt.setInteger("Edad", entity.getEdad());
                 nbtt.setString("Name", entity.getName());
