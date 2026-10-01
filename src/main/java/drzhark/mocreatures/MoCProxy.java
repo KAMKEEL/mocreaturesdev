@@ -244,6 +244,9 @@ public class MoCProxy implements IGuiHandler {
                 {
                     entityData.setCanSpawn(Boolean.parseBoolean(cat.get("canspawn").value));
                 }
+                entityData.getSpawnListEntry().itemWeight = entityData.getFrequency();
+                entityData.getSpawnListEntry().minGroupCount = entityData.getMinSpawn();
+                entityData.getSpawnListEntry().maxGroupCount = entityData.getMaxSpawn();
             }
         }
         mocEntityConfig.save();
