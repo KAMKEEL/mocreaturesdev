@@ -268,8 +268,12 @@ public class MoCTools {
         for (int k1 = i; k1 < j; k1++) {
             for (int l1 = k; l1 < l; l1++) {
                 for (int i2 = i1; i2 < j1; i2++) {
-                    Block block = entity.worldObj.getBlock(k1, l1, i2);
+                    if (!entity.worldObj.getChunkProvider().chunkExists(k1 >> 4, i2 >> 4)
+                            || !entity.worldObj.blockExists(k1, l1, i2)) {
+                        continue;
+                    }
 
+                    Block block = entity.worldObj.getBlock(k1, l1, i2);
                     if (block != Blocks.air) {
                         String nameToCheck = "";
                         nameToCheck = block.getUnlocalizedName();//.getBlockName();
