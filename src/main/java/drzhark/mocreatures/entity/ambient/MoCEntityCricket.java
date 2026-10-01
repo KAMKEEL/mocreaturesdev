@@ -3,7 +3,6 @@ package drzhark.mocreatures.entity.ambient;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.common.DimensionManager;
 import drzhark.mocreatures.MoCTools;
 import drzhark.mocreatures.MoCreatures;
 import drzhark.mocreatures.entity.MoCEntityInsect;
@@ -78,20 +77,31 @@ public class MoCEntityCricket extends MoCEntityInsect
 
             if (getIsFlying() || !this.onGround)
             {
-                EntityPlayer ep = worldObj.getClosestPlayerToEntity(this, 5D);
-                if (ep != null && --soundCounter == -1)
+                if (--soundCounter <= 0)
                 {
-                    MoCTools.playCustomSound(this, "cricketfly", this.worldObj);
-                    soundCounter = 10;
+                    EntityPlayer ep = worldObj.getClosestPlayerToEntity(this, 5D);
+                    if (ep != null)
+                    {
+                        MoCTools.playCustomSound(this, "cricketfly", this.worldObj);
+                        soundCounter = 11;
+                    }
+                    else
+                    {
+                        soundCounter = 10;
+                    }
                 }
             }
-            else if (!DimensionManager.getWorld(0).isDaytime())
+            else if (!worldObj.isDaytime() && --soundCounter <= 0)
             {
                 EntityPlayer ep = worldObj.getClosestPlayerToEntity(this, 12D);
-                if (ep != null && --soundCounter == -1)
+                if (ep != null)
                 {
                     MoCTools.playCustomSound(this, "cricket", this.worldObj);
-                    soundCounter = 20;
+                    soundCounter = 21;
+                }
+                else
+                {
+                    soundCounter = 10;
                 }
             }
 

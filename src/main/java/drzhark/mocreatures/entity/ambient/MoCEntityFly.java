@@ -32,11 +32,18 @@ public class MoCEntityFly extends MoCEntityInsect
                 setIsFlying(false);
             }
 
-            EntityPlayer ep = worldObj.getClosestPlayerToEntity(this, 5D);
-            if (ep != null && getIsFlying() && --soundCount == -1)
+            if (getIsFlying() && --soundCount <= 0)
             {
-                MoCTools.playCustomSound(this, "fly", this.worldObj);
-                soundCount = 55;
+                EntityPlayer ep = worldObj.getClosestPlayerToEntity(this, 5D);
+                if (ep != null)
+                {
+                    MoCTools.playCustomSound(this, "fly", this.worldObj);
+                    soundCount = 56;
+                }
+                else
+                {
+                    soundCount = 10;
+                }
             }
 
             //TODO

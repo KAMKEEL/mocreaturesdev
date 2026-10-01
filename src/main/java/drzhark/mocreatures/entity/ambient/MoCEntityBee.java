@@ -36,10 +36,14 @@ public class MoCEntityBee extends MoCEntityInsect {
         super.onLivingUpdate();
 
         if (MoCreatures.isServer()) {
-            EntityPlayer ep = worldObj.getClosestPlayerToEntity(this, 5D);
-            if (ep != null && getIsFlying() && --soundCount == -1) {
-                MoCTools.playCustomSound(this, getMySound(), this.worldObj);
-                soundCount = 20;
+            if (getIsFlying() && --soundCount <= 0) {
+                EntityPlayer ep = worldObj.getClosestPlayerToEntity(this, 5D);
+                if (ep != null) {
+                    MoCTools.playCustomSound(this, getMySound(), this.worldObj);
+                    soundCount = 21;
+                } else {
+                    soundCount = 10;
+                }
             }
 
             if (getIsFlying() && rand.nextInt(500) == 0) {
