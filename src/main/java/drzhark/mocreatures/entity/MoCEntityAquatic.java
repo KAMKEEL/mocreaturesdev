@@ -716,7 +716,7 @@ public abstract class MoCEntityAquatic extends EntityWaterMob implements IMoCEnt
             }
         }
 
-        if (!hasPath() && riddenByEntity == null && !isMovementCeased() && entityToAttack == null)
+        if (MoCreatures.isServer() && !hasPath() && riddenByEntity == null && !isMovementCeased() && entityToAttack == null && rand.nextInt(20) == 0)
         {
             updateWanderPath();
         }

@@ -80,7 +80,9 @@ public class MoCEntityInsect extends MoCEntityAmbient {
 
         if (MoCreatures.isServer())
         {
-            if (isOnLadder() && !onGround)
+            // The client keeps this animation alive for eight ticks. Refresh it
+            // every four ticks instead of sending the same packet every tick.
+            if (isOnLadder() && !onGround && (ticksExisted & 3) == 0)
             {
                 MoCMessageHandler.INSTANCE.sendToAllAround(new MoCMessageAnimation(this.getEntityId(), 1), new TargetPoint(this.worldObj.provider.dimensionId, this.posX, this.posY, this.posZ, 64));
             }
@@ -117,7 +119,7 @@ public class MoCEntityInsect extends MoCEntityAmbient {
             }
  
             //this makes the flying insect move all the time in the air
-            if (getIsFlying() && !hasPath() && !isMovementCeased() && entityToAttack == null)
+            if (getIsFlying() && !hasPath() && !isMovementCeased() && entityToAttack == null && rand.nextInt(20) == 0)
             {
                 updateWanderPath();
             }
