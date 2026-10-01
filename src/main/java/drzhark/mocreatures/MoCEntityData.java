@@ -2,9 +2,6 @@ package drzhark.mocreatures;
 
 import java.util.List;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import drzhark.guiapi.widget.WidgetSimplewindow;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase.SpawnListEntry;
@@ -18,9 +15,6 @@ public class MoCEntityData {
     private boolean canSpawn = true;
     private int entityId;
     private List<Type> biomeTypes;
-    @SideOnly(Side.CLIENT)
-    private WidgetSimplewindow entityWindow;
-
     private int frequency = 8;
     private int minGroup = 1;
     private int maxGroup = 1;
@@ -178,15 +172,4 @@ public class MoCEntityData {
         return this.spawnListEntry;
     }
 
-    @SideOnly(Side.CLIENT)
-    public WidgetSimplewindow getEntityWindow()
-    {
-        return this.entityWindow;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void setEntityWindow(WidgetSimplewindow window)
-    {
-        this.entityWindow = window;
-    }
 }

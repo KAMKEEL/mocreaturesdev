@@ -1,7 +1,5 @@
 package drzhark.mocreatures.client.handlers;
 
-import java.util.EnumSet;
-
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -10,9 +8,6 @@ import org.lwjgl.input.Keyboard;
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
-import drzhark.guiapi.GuiModScreen;
-import drzhark.guiapi.ModSettingScreen;
-import drzhark.mocreatures.MoCreatures;
 import drzhark.mocreatures.client.MoCClientProxy;
 import drzhark.mocreatures.entity.IMoCEntity;
 import drzhark.mocreatures.network.MoCMessageHandler;
@@ -21,11 +16,9 @@ import drzhark.mocreatures.network.message.MoCMessageEntityJump;
 
 public class MoCKeyHandler {
     int keyCount;
-    private ModSettingScreen localScreen;
     //static KeyBinding jumpBinding = new KeyBinding("jumpBind", Keyboard.KEY_F);
     //static KeyBinding jumpBinding = new KeyBinding("MoCreatures Jump", MoCClientProxy.mc.gameSettings.keyBindJump.getKeyCode(), "key.categories.movement");
     static KeyBinding diveBinding = new KeyBinding("MoCreatures Dive", Keyboard.KEY_F, "key.categories.movement");
-    static KeyBinding guiBinding = new KeyBinding("MoCreatures GUI", Keyboard.KEY_F6, "key.categories.misc");
     //static KeyBinding dismountBinding = new KeyBinding("MoCreatures Dismount", Keyboard.KEY_F);
 
     public MoCKeyHandler()
@@ -34,8 +27,6 @@ public class MoCKeyHandler {
         //keyDown should repeat as long as the key is down
         //cpw.mods.fml.client.registry.ClientRegistry.registerKeyBinding(jumpBinding);
         cpw.mods.fml.client.registry.ClientRegistry.registerKeyBinding(diveBinding);
-        cpw.mods.fml.client.registry.ClientRegistry.registerKeyBinding(guiBinding);
-        localScreen = MoCClientProxy.instance.MoCScreen;
     }
 
     
@@ -48,22 +39,7 @@ public class MoCKeyHandler {
         if (FMLClientHandler.instance().getClient().ingameGUI.getChatGUI().getChatOpen()) return; // if chatting return
         boolean kbJump = Keyboard.isKeyDown(MoCClientProxy.mc.gameSettings.keyBindJump.getKeyCode());
         boolean kbDive = Keyboard.isKeyDown(diveBinding.getKeyCode());
-        boolean kbGui = Keyboard.isKeyDown(guiBinding.getKeyCode());
-        boolean isJumpKeyDown = Keyboard.isKeyDown(MoCClientProxy.mc.gameSettings.keyBindJump.getKeyCode());
         //boolean kbDismount = kb.keyDescription.equals("MoCreatures Dismount");
-
-        if ((kbGui) && (!MoCreatures.isServer()))
-        {
-            this.localScreen = MoCClientProxy.instance.MoCScreen;
-            if ((MoCClientProxy.mc.inGameHasFocus) && (this.localScreen != null))
-            {
-                GuiModScreen.show(localScreen.theWidget);
-            }
-            else 
-            {
-                localScreen = null; // kill our instance
-            }
-        }
 
         /**
          * this avoids double jumping

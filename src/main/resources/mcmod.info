@@ -18,8 +18,6 @@
     "shot1.png",
     "shot2.png"
   ],
-  "dependencies": [
-     "GUI_Api"
-  ]
+  "dependencies": []
 }
 ]

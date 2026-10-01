@@ -422,7 +422,6 @@ public class MoCreatures {
 
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
-        proxy.initGUI();
         event.registerServerCommand(new CommandMoCreatures());
         event.registerServerCommand(new CommandMoCTP());
         event.registerServerCommand(new CommandMoCPets());

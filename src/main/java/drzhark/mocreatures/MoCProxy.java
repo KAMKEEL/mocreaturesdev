@@ -342,7 +342,4 @@ public class MoCProxy implements IGuiHandler {
         //client side only
     }
 
-    public void initGUI() {
-        // client side only
-    }
 }
