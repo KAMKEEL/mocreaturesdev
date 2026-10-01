@@ -28,7 +28,8 @@ public class WorldGenWyvernGrass extends WorldGenerator
         do 
         {
             block = par1World.getBlock(par3,  par4, par5);
-            if (block != null && !block.isLeaves(par1World, par3, par4, par5))
+            if (block != null && !block.isLeaves(par1World, par3, par4, par5)
+                    && !block.isAir(par1World, par3, par4, par5))
             {
                 break;
             }
