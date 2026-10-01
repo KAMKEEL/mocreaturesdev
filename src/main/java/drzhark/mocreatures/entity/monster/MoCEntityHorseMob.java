@@ -43,6 +43,12 @@ public class MoCEntityHorseMob extends MoCEntityMob
     }
 
     @Override
+    public boolean canBeCollidedWith()
+    {
+        return !(riddenByEntity instanceof EntitySkeleton);
+    }
+
+    @Override
     public void selectType()
     {
         if (worldObj.provider.isHellWorld)
